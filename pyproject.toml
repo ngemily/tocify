@@ -1,0 +1,19 @@
+[project]
+name = "paginator"
+description = "Annotate pdf files with table of contents metadata."
+version = "2024.0"
+authors = [
+    {name="Emily Ng"}
+]
+dependencies = [
+    "click",
+    "jinja2",
+]
+readme = "README.md"
+keywords = ["pdf", "toc", "contents", "table of contents"]
+
+[project.scripts]
+pdf-paginator = "paginator:main"
+
+[project.urls]
+Repository = "https://github.com/ngemily/paginator"
