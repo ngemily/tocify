@@ -16,7 +16,7 @@ with open("toc.j2") as fh:
 
 
 def parse_row(row):
-    """Parse row 
+    """Parse row
     [+]*<title>, <page_no>
 
     Returns tuple of
@@ -34,16 +34,19 @@ def parse_row(row):
 
 @click.command()
 @click.option("-o", "--offset", default=0, help="Page number offset.")
-@click.argument("filename", type=click.Path(exists=True, readable=True))
-def main(filename, offset):
-    """Foobar program
+@click.option(
+    "--toc-filename",
+    type=click.Path(exists=True, readable=True),
+    required=True,
+    help="""
+    table of contents metadata
 
     \b
     toc file format:
         [+]*<heading>, <page_no>
 
-        where the number of '+' symbol preceding a heading denotes its depth in
-        the table of contents.
+    where the number of '+' symbol preceding a heading denotes its depth in the
+    table of contents.
 
     \b
     e.g.
@@ -53,6 +56,13 @@ def main(filename, offset):
         ++<sub-sub-heading>, <page_no>
         <heading>, <page_no>
         +<sub-heading>, <page_no>
+        """,
+)
+@click.argument("filename", type=click.Path(exists=True, readable=True))
+def main(filename, toc_filename, offset):
+    """Foobar program
+
+    Update FILENAME with table of contents metadata given in TOC_FILENAME
     """
     pass
 
