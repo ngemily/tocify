@@ -1,6 +1,6 @@
 import csv
+import shutil
 import subprocess
-import sys
 
 import click
 from jinja2 import Template
@@ -77,6 +77,11 @@ def foo():
                         title=title, bookmark_level=depth, page_number=page_no
                     )
                 )
+
+    if not shutil.which("pdftk"):
+        print("`pdftk` not found.")
+        print("Please install pdftk https://www.pdflabs.com/tools/pdftk-server/")
+        raise SystemExit(127)
 
     try:
         # NB: pdftk does not permit overwriting original file
