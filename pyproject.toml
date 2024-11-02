@@ -13,7 +13,7 @@ readme = "README.md"
 keywords = ["pdf", "toc", "contents", "table of contents"]
 
 [project.scripts]
-pdf-paginator = "paginator:main"
+paginator = "paginator:main.main"
 
 [project.urls]
 Repository = "https://github.com/ngemily/paginator"
