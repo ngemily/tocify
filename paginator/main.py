@@ -1,18 +1,11 @@
 import csv
+import pathlib
 import shutil
 import subprocess
+import tempfile
 
 import click
 from jinja2 import Template
-
-filename = ""
-offset = 0
-toc_file = "main.toc"
-annotated_pdf = "out.pdf"
-original_pdf = "in.pdf"
-
-with open("toc.j2") as fh:
-    template = Template(fh.read())
 
 
 def parse_row(row, offset=0):
@@ -33,7 +26,10 @@ def parse_row(row, offset=0):
 
 
 @click.command()
-@click.option("-o", "--offset", default=0, help="Page number offset.")
+@click.option("--offset", default=0, help="Page number offset.")
+@click.option(
+    "-o", "--output-filename", type=click.Path(writable=True), help="Output filename."
+)
 @click.option(
     "--toc-filename",
     type=click.Path(exists=True, readable=True),
@@ -59,17 +55,22 @@ def parse_row(row, offset=0):
         """,
 )
 @click.argument("filename", type=click.Path(exists=True, readable=True))
-def main(filename, toc_filename, offset):
-    """Foobar program
+def main(filename, output_filename, toc_filename, offset):
+    """paginator
 
     Update FILENAME with table of contents metadata given in TOC_FILENAME
     """
-    pass
 
+    if not shutil.which("pdftk"):
+        print("`pdftk` not found.")
+        print("Please install pdftk https://www.pdflabs.com/tools/pdftk-server/")
+        raise SystemExit(127)
 
-def foo():
-    with open(toc_file, "w") as ofh:
-        with open(filename, "r") as ifh:
+    with open(pathlib.Path(__file__).parent / ("toc.j2")) as fh:
+        template = Template(fh.read())
+
+    with tempfile.NamedTemporaryFile(delete_on_close=False, mode="w") as ofh:
+        with open(toc_filename, "r") as ifh:
             for row in csv.reader(ifh):
                 depth, title, page_no = parse_row(row, offset)
                 ofh.write(
@@ -77,21 +78,16 @@ def foo():
                         title=title, bookmark_level=depth, page_number=page_no
                     )
                 )
+        ofh.close()
 
-    if not shutil.which("pdftk"):
-        print("`pdftk` not found.")
-        print("Please install pdftk https://www.pdflabs.com/tools/pdftk-server/")
-        raise SystemExit(127)
-
-    try:
-        # NB: pdftk does not permit overwriting original file
-        subprocess.run(
-            ["pdftk", original_pdf, "update_info", toc_file, "output", annotated_pdf],
-            check=True,
-            capture_output=True,
-        )
-    except subprocess.CalledProcessError as e:
-        print(str(e.stderr, "utf-8"))
+        try:
+            subprocess.run(
+                ["pdftk", filename, "update_info", ofh.name, "output", output_filename],
+                check=True,
+                capture_output=True,
+            )
+        except subprocess.CalledProcessError as e:
+            print(str(e.stderr, "utf-8"))
 
 
 if __name__ == "__main__":
