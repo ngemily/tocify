@@ -15,7 +15,7 @@ with open("toc.j2") as fh:
     template = Template(fh.read())
 
 
-def parse_row(row):
+def parse_row(row, offset=0):
     """Parse row
     [+]*<title>, <page_no>
 
@@ -71,7 +71,7 @@ def foo():
     with open(toc_file, "w") as ofh:
         with open(filename, "r") as ifh:
             for row in csv.reader(ifh):
-                depth, title, page_no = parse_row(row)
+                depth, title, page_no = parse_row(row, offset)
                 ofh.write(
                     template.render(
                         title=title, bookmark_level=depth, page_number=page_no
