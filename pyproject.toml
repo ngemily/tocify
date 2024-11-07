@@ -1,5 +1,5 @@
 [project]
-name = "paginator"
+name = "tocify"
 description = "Annotate pdf files with table of contents metadata."
 version = "2024.0"
 authors = [
@@ -13,7 +13,7 @@ readme = "README.md"
 keywords = ["pdf", "toc", "contents", "table of contents"]
 
 [project.scripts]
-paginator = "paginator:main.main"
+tocify = "tocify:main.main"
 
 [project.urls]
-Repository = "https://github.com/ngemily/paginator"
+Repository = "https://github.com/ngemily/tocify"

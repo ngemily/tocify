@@ -1,1 +1,1 @@
-include paginator/toc.j2
+include tocify/toc.j2

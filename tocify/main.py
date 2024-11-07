@@ -56,7 +56,7 @@ def parse_row(row, offset=0):
 )
 @click.argument("filename", type=click.Path(exists=True, readable=True))
 def main(filename, output_filename, toc_filename, offset):
-    """paginator
+    """tocify
 
     Update FILENAME with table of contents metadata given in TOC_FILENAME
     """
