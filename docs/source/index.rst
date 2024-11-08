@@ -3,15 +3,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-tocify documentation
-====================
+tocify
+======
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+Add table of contents metadata to pdf files.
 
+``tocify --toc-filename mytoc.toc -o annotated.pdf in.pdf``
+
+.. image:: imgs/1.png
+   :width: 48%
+
+.. image:: imgs/2.png
+   :width: 48%
+
+toc files looks like::
+
+    Chapter 1, 1
+    +Subsection 1, 3
+    ++Subsubsection 1, 5
+    ...
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
