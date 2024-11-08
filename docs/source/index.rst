@@ -23,6 +23,9 @@ toc files looks like::
     ++Subsubsection 1, 5
     ...
 
+You may specify a page number offset with ``--offset`` which will be added to
+each page number given in the toc file.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

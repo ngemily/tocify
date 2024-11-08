@@ -15,3 +15,6 @@ toc files looks like:
     +Subsection 1, 3
     ++Subsubsection 1, 5
     ...
+
+You may specify a page number offset with `--offset` which will be added to
+each page number given in the toc file.
