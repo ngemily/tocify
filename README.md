@@ -12,6 +12,7 @@ Annotate pdfs with table of contents metadata.
 toc files looks like:
 
     Chapter 1, 1
+    Chapter 2, 2
     +Subsection 1, 3
     ++Subsubsection 1, 5
     ...
