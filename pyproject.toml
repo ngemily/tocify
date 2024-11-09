@@ -17,3 +17,6 @@ tocify = "tocify:main.main"
 
 [project.urls]
 Repository = "https://github.com/ngemily/tocify"
+
+[tool.pytest.ini_options]
+pythonpath = "."
