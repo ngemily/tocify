@@ -12,17 +12,14 @@ def parse_row(row, offset=0):
     """Parse row
     [+]*<title>, <page_no>
 
-    Returns tuple of
-        depth: int
-        title: str
-        page_no: int
+    Returns dict of args for use with jinja template.
     """
     title, page_no = row[0], row[1]
     depth = len(title) - len(title.lstrip("+")) + 1
     page_no = int(page_no) + offset
     title = title.lstrip("+ ")
 
-    return (depth, title, page_no)
+    return {"title": title, "bookmark_level": depth, "page_number": page_no}
 
 
 @click.command()
@@ -71,13 +68,12 @@ def main(filename, output_filename, toc_filename, offset):
 
     with tempfile.NamedTemporaryFile(delete_on_close=False, mode="w") as ofh:
         with open(toc_filename, "r") as ifh:
-            for row in csv.reader(ifh):
-                depth, title, page_no = parse_row(row, offset)
-                ofh.write(
-                    template.render(
-                        title=title, bookmark_level=depth, page_number=page_no
-                    )
+            ofh.writelines(
+                map(
+                    lambda row: template.render(parse_row(row, offset)),
+                    csv.reader(ifh),
                 )
+            )
         ofh.close()
 
         try:
